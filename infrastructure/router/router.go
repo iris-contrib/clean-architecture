@@ -1,16 +1,26 @@
 package router
 
 import (
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
-	"github.com/manakuro/golang-clean-architecture/interface/controller"
+	"github.com/iris-contrib/clean-architecture/interface/controller"
+
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/middleware/logger"
+	"github.com/kataras/iris/v12/middleware/recover"
 )
 
-func NewRouter(e *echo.Echo, c controller.AppController) *echo.Echo {
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+func NewRouter(app *iris.Application, c controller.AppController) {
+	app.Use(logger.New())
+	app.Use(recover.New())
 
-	e.GET("/users", func(context echo.Context) error { return c.GetUsers(context) })
+	app.Get("/users", func(ctx iris.Context) {
+		if err := c.GetUsers(ctx); err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.Writef("GetUsers: %v", err)
+		}
+	})
 
-	return e
+	// mvc.Configure(app, func(mvcApp *mvc.Application){
+	// 	mvcApp.Register(...dependencies)
+	// 	mvcApp.Handle(new(controller))
+	// })
 }

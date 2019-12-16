@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"net/http"
+	"github.com/iris-contrib/clean-architecture/domain/model"
+	"github.com/iris-contrib/clean-architecture/usecase/interactor"
 
-	"github.com/manakuro/golang-clean-architecture/domain/model"
-	"github.com/manakuro/golang-clean-architecture/usecase/interactor"
+	"github.com/kataras/iris/v12"
 )
 
 type userController struct {
@@ -12,14 +12,14 @@ type userController struct {
 }
 
 type UserController interface {
-	GetUsers(c Context) error
+	GetUsers(iris.Context) error
 }
 
 func NewUserController(us interactor.UserInteractor) UserController {
 	return &userController{us}
 }
 
-func (uc *userController) GetUsers(c Context) error {
+func (uc *userController) GetUsers(ctx iris.Context) error {
 	var u []*model.User
 
 	u, err := uc.userInteractor.Get(u)
@@ -27,5 +27,6 @@ func (uc *userController) GetUsers(c Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, u)
+	_, err = ctx.JSON(u)
+	return err
 }

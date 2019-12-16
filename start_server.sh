@@ -1,3 +1,3 @@
 #!/bin/sh
 
-eval "gin -i run"
+eval "go run main.go"

@@ -1,9 +1,9 @@
 package interactor
 
 import (
-	"github.com/manakuro/golang-clean-architecture/domain/model"
-	"github.com/manakuro/golang-clean-architecture/usecase/presenter"
-	"github.com/manakuro/golang-clean-architecture/usecase/repository"
+	"github.com/iris-contrib/clean-architecture/domain/model"
+	"github.com/iris-contrib/clean-architecture/usecase/presenter"
+	"github.com/iris-contrib/clean-architecture/usecase/repository"
 )
 
 type userInteractor struct {

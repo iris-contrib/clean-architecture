@@ -1,9 +1,11 @@
-# golang-clean-architecture
-Go with Clean Architecture
+# Clean Architecture
+
+Based on [manato's article: Clean Architecture with GO](https://medium.com/manato/clean-architecture-with-go-bce409427d31).
 
 ## Usage
 
-start server
+Start server
+
 ```.sh
-$ ./start_server
+$ go run main.go
 ```

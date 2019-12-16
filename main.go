@@ -1,16 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"github.com/iris-contrib/clean-architecture/config"
+	"github.com/iris-contrib/clean-architecture/infrastructure/datastore"
+	"github.com/iris-contrib/clean-architecture/infrastructure/router"
+	"github.com/iris-contrib/clean-architecture/registry"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/labstack/echo"
-
-	"github.com/manakuro/golang-clean-architecture/config"
-	"github.com/manakuro/golang-clean-architecture/infrastructure/datastore"
-	"github.com/manakuro/golang-clean-architecture/infrastructure/router"
-	"github.com/manakuro/golang-clean-architecture/registry"
+	"github.com/kataras/iris/v12"
 )
 
 func main() {
@@ -22,11 +19,13 @@ func main() {
 
 	r := registry.NewRegistry(db)
 
-	e := echo.New()
-	e = router.NewRouter(e, r.NewAppController())
+	app := iris.New()
+	router.NewRouter(app, r.NewAppController())
 
-	fmt.Println("Server listen at http://localhost" + ":" + config.C.Server.Address)
-	if err := e.Start(":" + config.C.Server.Address); err != nil {
-		log.Fatalln(err)
-	}
+	addr := "http://localhost:" + config.C.Server.Address
+
+	app.Run(
+		iris.Addr(addr),
+		iris.WithoutServerError(iris.ErrServerClosed),
+		iris.WithSitemap(addr))
 }
