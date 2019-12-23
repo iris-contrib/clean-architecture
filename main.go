@@ -22,10 +22,10 @@ func main() {
 	app := iris.New()
 	router.NewRouter(app, r.NewAppController())
 
-	addr := "http://localhost:" + config.C.Server.Address
+	addr := "localhost:" + config.C.Server.Address
 
 	app.Run(
 		iris.Addr(addr),
 		iris.WithoutServerError(iris.ErrServerClosed),
-		iris.WithSitemap(addr))
+		iris.WithSitemap("http://"+addr))
 }
