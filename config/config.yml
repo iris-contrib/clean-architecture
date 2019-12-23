@@ -1,8 +1,8 @@
 database:
   user: root
-  password: root
+  password:
   net: tcp
-  addr: 127.0.0.1:3307
+  addr: 127.0.0.1:3306
   dbname: clean-architecture
   allowNativePasswords: true
   params:
